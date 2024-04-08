@@ -38,36 +38,36 @@ class _MovieListScreenState extends State<MovieListScreen> {
       appBar: AppBar(
         title: const Text('Movies'),
       ),
-      body: StreamBuilder<Object>(
-        stream: _firebaseFirestore.collection('movies').snapshots(),
-        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-
-          if(snapshot.hasError){
-            return Center(
-              child: Text(snapshot.error.toString());
-            )
-          }
-          movieList.clear();
-          for (QueryDocumentSnapshot doc in (snapshot.data?.docs ?? [])) {
-            // print(doc.data());
-            movieList.add(
-              Movie.fromJson(doc.id, doc.data() as Map<String, dynamic>),
-            );
-          }
-          return ListView.separated(
-              itemCount: movieList.length,
-              itemBuilder: (context, index){
-                return  ListTile(
-                  title: Text(movieList[index].name),
-                  subtitle: Text(movieList[index].language),
-                  leading: Text(movieList[index].ratings),
-                  trailing: Text(movieList[index].year),
-                );
-              },
-              separatorBuilder: (_, __) => const Divider(),
-              );
-        }
-      ),
+      // body: StreamBuilder<Object>(
+      //   stream: _firebaseFirestore.collection('movies').snapshots(),
+      //   builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      //
+      //     if(snapshot.hasError){
+      //       return Center(
+      //         child: Text(snapshot.error.toString());
+      //       )
+      //     }
+      //     movieList.clear();
+      //     for (QueryDocumentSnapshot doc in (snapshot.data?.docs ?? [])) {
+      //       // print(doc.data());
+      //       movieList.add(
+      //         Movie.fromJson(doc.id, doc.data() as Map<String, dynamic>),
+      //       );
+      //     }
+      //     return ListView.separated(
+      //         itemCount: movieList.length,
+      //         itemBuilder: (context, index){
+      //           return  ListTile(
+      //             title: Text(movieList[index].name),
+      //             subtitle: Text(movieList[index].language),
+      //             leading: Text(movieList[index].ratings),
+      //             trailing: Text(movieList[index].year),
+      //           );
+      //         },
+      //         separatorBuilder: (_, __) => const Divider(),
+      //         );
+      //   }
+      // ),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
