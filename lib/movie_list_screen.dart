@@ -68,9 +68,30 @@ class _MovieListScreenState extends State<MovieListScreen> {
               );
         }
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: (){
+              Map<String, dynamic> newMovie = {
+                'name' : 'King Kong',
+                'year' : '1996',
+                'languages' : 'English, Bangla',
+                'rating' : '5'
+              };
+              _firebaseFirestore.collection('movies').doc('new-doc-1').set(newMovie);
+            },
+            child: const Icon(Icons.add),
+          ),
+          const SizedBox(width: 14,),
+          FloatingActionButton(
+            onPressed: (){
+
+              _firebaseFirestore.collection('movies').doc('new-doc-1').delete();
+            },
+            child: const Icon(Icons.delete_outline),
+          ),
+        ],
       ),
     );
   }
