@@ -1,4 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +9,6 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   final List<Movie> movieList = [];
 
@@ -20,7 +18,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     // _getMovieList();
   }
 
-  void _getMovieList(){
+  void _getMovieList() {
     _firebaseFirestore.collection('movies').get().then((value) {
       movieList.clear();
       for (QueryDocumentSnapshot doc in value.docs) {
@@ -34,7 +32,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       appBar: AppBar(
         title: const Text('Movies'),
       ),
@@ -72,21 +70,25 @@ class _MovieListScreenState extends State<MovieListScreen> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            onPressed: (){
+            onPressed: () {
               Map<String, dynamic> newMovie = {
-                'name' : 'King Kong',
-                'year' : '1996',
-                'languages' : 'English, Bangla',
-                'rating' : '5'
+                'name': 'King Kong',
+                'year': '1996',
+                'languages': 'English, Bangla',
+                'rating': '5'
               };
-              _firebaseFirestore.collection('movies').doc('new-doc-1').set(newMovie);
+              _firebaseFirestore
+                  .collection('movies')
+                  .doc('new-doc-1')
+                  .set(newMovie);
             },
             child: const Icon(Icons.add),
           ),
-          const SizedBox(width: 14,),
+          const SizedBox(
+            width: 14,
+          ),
           FloatingActionButton(
-            onPressed: (){
-
+            onPressed: () {
               _firebaseFirestore.collection('movies').doc('new-doc-1').delete();
             },
             child: const Icon(Icons.delete_outline),
@@ -97,24 +99,24 @@ class _MovieListScreenState extends State<MovieListScreen> {
   }
 }
 
-class Movie{
+class Movie {
   final String id, name, year, language, ratings;
 
-  Movie(
-      {required this.id,
-      required this.name,
-      required this.year,
-      required this.language,
-      required this.ratings,
-      });
+  Movie({
+    required this.id,
+    required this.name,
+    required this.year,
+    required this.language,
+    required this.ratings,
+  });
 
-  factory Movie.fromJson(String id, Map<String, dynamic> json){
+  factory Movie.fromJson(String id, Map<String, dynamic> json) {
     return Movie(
-        id: id,
-        name: json['name'] ?? '',
-        year: json['year'] ?? '',
-        language: json['languages'] ?? '',
-        ratings: json['ratings'] ?? 'Unknown',
+      id: id,
+      name: json['name'] ?? '',
+      year: json['year'] ?? '',
+      language: json['languages'] ?? '',
+      ratings: json['ratings'] ?? 'Unknown',
     );
   }
 }

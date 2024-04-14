@@ -28,10 +28,10 @@ class _MoviesPickerScreenState extends State<MoviesPickerScreen> {
     final storageRef = _firebaseStorage.ref().child('picture');
     final listResult = listAllPaginated(storageRef);
     storedImage.clear();
-    await for(listResult result inlistResult){
+    await for(ListResult result in listResult){
       for (Reference reference in result.items){
         final url = await reference.getDownloadURL();
-        storedImages.add(url);
+        storedImage.add(url);
         setState(() {});
       }
     }
@@ -67,7 +67,7 @@ class _MoviesPickerScreenState extends State<MoviesPickerScreen> {
     );
   }
 
-  Stream<ListResult> listAllPaginated(Reference storedRef) async {
+  Stream<ListResult> listAllPaginated(Reference storedRef) async* {
     String? pageToken;
     do{
       final listResult = await storedRef.list(
@@ -85,7 +85,7 @@ class _MoviesPickerScreenState extends State<MoviesPickerScreen> {
     final ImagePicker imagePicker = ImagePicker();
     _pickedImage = await imagePicker.pickImage(source: ImageSource.gallery);
     if(_pickedImage != null) {
-      File imageFile = File(_pickedImage.path);
+      File imageFile = File(_pickedImage!.path);
       await _uploadImageToFireBase(imageFile);
     }
   }

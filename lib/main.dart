@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_project/movie_list_screen.dart';
+import 'package:firebase_project/tennis_live_score_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'firebase_options.dart';
@@ -18,7 +19,9 @@ class MoviesApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MovieListScreen(),
+      debugShowCheckedModeBanner: false,
+      // home: MovieListScreen(),
+      home: TennisLiveScoreScreen(docId: '7',),
     );
   }
 }
