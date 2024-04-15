@@ -12,6 +12,7 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await FirebaseMessagingServices.initialize();
+  print(await FirebaseMessagingServices.getFCMToken());
   runApp(const MoviesApp());
 }
 

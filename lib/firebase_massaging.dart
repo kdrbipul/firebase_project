@@ -22,6 +22,17 @@ class FirebaseMessagingServices {
     });
 
     FirebaseMessaging.onBackgroundMessage((doSomeThing));
+    _listenToTokenRefresh();
+  }
+
+  static Future<String?> getFCMToken() async {
+    return _firebaseMessaging.getToken();
+  }
+
+  static Future<void> _listenToTokenRefresh() async {
+    _firebaseMessaging.onTokenRefresh.listen((event) {
+
+    });
   }
 }
 
