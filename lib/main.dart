@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_project/firebase_massaging.dart';
 import 'package:firebase_project/movie_list_screen.dart';
 import 'package:firebase_project/tennis_live_score_screen.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await FirebaseMessagingServices.initialize();
   runApp(const MoviesApp());
 }
 
