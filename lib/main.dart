@@ -45,11 +45,25 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('Google Map'),
       ),
-      body: const GoogleMap(
+      body:  GoogleMap(
         zoomControlsEnabled: true,
-        initialCameraPosition: CameraPosition(
+        initialCameraPosition: const CameraPosition(
           target: LatLng(24.227928802754363, 90.16462487803568),
+          zoom: 10,
+          bearing: 90,
+          tilt: 90,
         ),
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        onTap: (LatLng latLng){
+          print('tap on map : Latlng $latLng');
+        },
+        onLongPress: (LatLng latLng){
+          print('on long press : Latlng $latLng');
+        },
+        compassEnabled: true,
+        zoomGesturesEnabled: false,
+        liteModeEnabled: true,
       ),
     );
   }
