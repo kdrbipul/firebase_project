@@ -1,10 +1,8 @@
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_project/firebase_massaging.dart';
-import 'package:firebase_project/movie_list_screen.dart';
-import 'package:firebase_project/tennis_live_score_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:geolocator/geolocator.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -38,14 +36,43 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
+
 class _HomeScreenState extends State<HomeScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _onScreenStart();
+  }
+
+  Future<void> _onScreenStart() async {
+    LocationPermission locationPermission = await Geolocator.checkPermission();
+    print(locationPermission);
+
+    if (locationPermission == LocationPermission.whileInUse ||
+        locationPermission == LocationPermission.always) {
+      Position position = await Geolocator.getCurrentPosition();
+      print(position);
+    }else{
+      LocationPermission requestStatus = await Geolocator.requestPermission();
+      if (requestStatus == LocationPermission.whileInUse ||
+          requestStatus == LocationPermission.always) {
+        _onScreenStart();
+      }else{
+        print('permission denied');
+      }
+    }
+
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Google Map'),
       ),
-      body: GoogleMap(
+      body: /*GoogleMap(
         zoomControlsEnabled: true,
         initialCameraPosition: const CameraPosition(
           target: LatLng(24.227928802754363, 90.16462487803568),
@@ -61,9 +88,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onLongPress: (LatLng latLng) {
           print('on long press : Latlng $latLng');
         },
-        /*compassEnabled: true,
+        *//*compassEnabled: true,
         zoomGesturesEnabled: true,
-        liteModeEnabled: true,*/
+        liteModeEnabled: true,*//*
         markers: {
           Marker(
             markerId: const MarkerId('my-new-resturant'),
@@ -116,6 +143,9 @@ class _HomeScreenState extends State<HomeScreen> {
             fillColor: Colors.red.withOpacity(0.15),
           ),
         },
+      ),*/
+      const Center(
+        child: Text('current location'),
       ),
     );
   }
