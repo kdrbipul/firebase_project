@@ -1,4 +1,3 @@
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_project/firebase_massaging.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +35,14 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
+  Position? position;
 
   @override
   void initState() {
     super.initState();
     _onScreenStart();
+    _listenCurrentPosition();
   }
 
   Future<void> _onScreenStart() async {
@@ -51,19 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
     if (locationPermission == LocationPermission.whileInUse ||
         locationPermission == LocationPermission.always) {
-      Position position = await Geolocator.getCurrentPosition();
+      position = await Geolocator.getCurrentPosition();
       print(position);
-    }else{
+    } else {
       LocationPermission requestStatus = await Geolocator.requestPermission();
       if (requestStatus == LocationPermission.whileInUse ||
           requestStatus == LocationPermission.always) {
         _onScreenStart();
-      }else{
+      } else {
         print('permission denied');
       }
     }
+  }
 
-
+  void _listenCurrentPosition(){
+    Geolocator.getPositionStream().listen((p) {
+      print(p);
+    });
   }
 
   @override
@@ -88,9 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
         onLongPress: (LatLng latLng) {
           print('on long press : Latlng $latLng');
         },
-        *//*compassEnabled: true,
+        */ /*compassEnabled: true,
         zoomGesturesEnabled: true,
-        liteModeEnabled: true,*//*
+        liteModeEnabled: true,*/ /*
         markers: {
           Marker(
             markerId: const MarkerId('my-new-resturant'),
@@ -144,8 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         },
       ),*/
-      const Center(
-        child: Text('current location'),
+          const Center(
+        child: Text(
+            'current location${position?.latitude}, ${position?.longitude}'),
       ),
     );
   }
